@@ -5,6 +5,15 @@
     "hint": "关闭后仍可使用手动查询与订阅命令",
     "default": true
   },
+  "push_times": {
+    "description": "每日触发检查的时刻列表",
+    "type": "list",
+    "hint": "格式必须是 HH:MM。可填任意多个时间点，例如 08:10 / 12:10 / 16:10 / 20:10，测试时也可临时填 23:20 / 23:22",
+    "default": ["08:10", "12:10", "16:10", "20:10"],
+    "items": {
+      "type": "string"
+    }
+  },
   "retry_interval_minutes": {
     "description": "轮次校验失败后的重试间隔（分钟）",
     "type": "int",

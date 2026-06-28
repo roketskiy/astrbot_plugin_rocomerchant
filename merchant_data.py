@@ -9,6 +9,7 @@ from zoneinfo import ZoneInfo
 PRIMARY_URL = "https://rocokingdomworld.org/api/merchant/live"
 FALLBACK_URL = "https://rocokingdomworld.org/data/merchant.json"
 BEIJING_TZ = ZoneInfo("Asia/Shanghai")
+DEFAULT_PUSH_TIMES = ("08:10", "12:10", "16:10", "20:10")
 
 
 def current_beijing_datetime(now: datetime | None = None) -> datetime:
@@ -68,8 +69,48 @@ def current_round_slot(now: datetime | None = None) -> str | None:
     return f"{beijing_now.strftime('%Y-%m-%d')}-r{round_number}"
 
 
+def build_default_push_times(
+    first_push_delay_minutes: int = 10,
+) -> tuple[str, str, str, str]:
+    base_hours = (8, 12, 16, 20)
+    times: list[str] = []
+    for hour in base_hours:
+        dt = datetime(2000, 1, 1, hour, 0) + timedelta(
+            minutes=max(0, first_push_delay_minutes)
+        )
+        times.append(dt.strftime("%H:%M"))
+    return tuple(times)  # type: ignore[return-value]
+
+
+def normalize_push_times(
+    raw_value: Any,
+    first_push_delay_minutes: int = 10,
+) -> tuple[str, ...]:
+    default_times = build_default_push_times(first_push_delay_minutes)
+
+    if isinstance(raw_value, str):
+        candidates = [part.strip() for part in raw_value.split(",") if part.strip()]
+    elif isinstance(raw_value, list):
+        candidates = [str(part).strip() for part in raw_value if str(part).strip()]
+    else:
+        return default_times
+
+    if not candidates:
+        return default_times
+
+    normalized: list[str] = []
+    for value in candidates:
+        try:
+            parsed = datetime.strptime(value, "%H:%M")
+        except ValueError:
+            return default_times
+        normalized.append(parsed.strftime("%H:%M"))
+    return tuple(normalized)
+
+
 def current_push_window(
     now: datetime | None = None,
+    push_times: tuple[str, str, str, str] = DEFAULT_PUSH_TIMES,
     retry_interval_minutes: int = 3,
     max_retry_attempts: int = 4,
 ) -> dict[str, Any] | None:
@@ -82,9 +123,18 @@ def current_push_window(
     if started_at is None:
         return None
 
+    round_number = int(schedule["round"])
+    push_hour, push_minute = map(int, push_times[round_number - 1].split(":"))
+    first_attempt_time = started_at.replace(
+        hour=push_hour,
+        minute=push_minute,
+        second=0,
+        microsecond=0,
+    )
+
     attempt_count = max_retry_attempts + 1
     attempt_times = [
-        started_at + timedelta(minutes=10 + retry_interval_minutes * index)
+        first_attempt_time + timedelta(minutes=retry_interval_minutes * index)
         for index in range(attempt_count)
     ]
     due_attempt_index = None
@@ -94,7 +144,7 @@ def current_push_window(
 
     return {
         "slot": current_round_slot(beijing_now),
-        "round": schedule["round"],
+        "round": round_number,
         "started_at_beijing": schedule["started_at_beijing"],
         "next_refresh_beijing": schedule["next_refresh_beijing"],
         "attempt_times": attempt_times,
