@@ -45,8 +45,8 @@
 | 命令 | 权限 | 说明 |
 | --- | --- | --- |
 | `/merchant now` | 普通用户 | 立即查询当前远行商人商品 |
-| `/merchant subscribe` | 管理员 | 订阅当前会话的定时推送 |
-| `/merchant unsubscribe` | 管理员 | 取消当前会话的定时推送 |
+| `/merchant subscribe` | 普通用户 | 订阅当前会话的定时推送 |
+| `/merchant unsubscribe` | 普通用户 | 取消当前会话的定时推送 |
 | `/merchant status` | 管理员 | 查看当前会话订阅状态与最近推送槽位 |
 
 ## 配置

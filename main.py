@@ -471,7 +471,6 @@ class RocoMerchantPlugin(Star):
         self._ensure_scheduler_started()
         yield event.plain_result(await self.reply_now_text())
 
-    @filter.permission_type(filter.PermissionType.ADMIN)
     @merchant.command("subscribe")
     async def merchant_subscribe(self, event: AstrMessageEvent):
         umo = event.unified_msg_origin
@@ -486,7 +485,6 @@ class RocoMerchantPlugin(Star):
             return
         yield event.plain_result("当前会话已订阅，无需重复操作。")
 
-    @filter.permission_type(filter.PermissionType.ADMIN)
     @merchant.command("unsubscribe")
     async def merchant_unsubscribe(self, event: AstrMessageEvent):
         umo = event.unified_msg_origin
