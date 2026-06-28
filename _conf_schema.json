@@ -1,0 +1,38 @@
+{
+  "enable_push": {
+    "description": "是否启用定时推送任务",
+    "type": "bool",
+    "hint": "关闭后仍可使用手动查询与订阅命令",
+    "default": true
+  },
+  "retry_interval_minutes": {
+    "description": "轮次校验失败后的重试间隔（分钟）",
+    "type": "int",
+    "hint": "默认 3 分钟",
+    "default": 3
+  },
+  "max_retry_attempts": {
+    "description": "首次尝试后的最大补充重试次数",
+    "type": "int",
+    "hint": "默认 4 次",
+    "default": 4
+  },
+  "request_timeout_seconds": {
+    "description": "HTTP 请求超时时间（秒）",
+    "type": "int",
+    "hint": "默认 10 秒",
+    "default": 10
+  },
+  "snapshot_fallback_for_now": {
+    "description": "手动查询失败时是否允许回退最近一次快照",
+    "type": "bool",
+    "hint": "默认开启",
+    "default": true
+  },
+  "message_header": {
+    "description": "推送消息前缀",
+    "type": "string",
+    "hint": "非空时会单独占用消息第一行",
+    "default": ""
+  }
+}
