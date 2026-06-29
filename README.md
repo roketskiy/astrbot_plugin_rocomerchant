@@ -1,5 +1,12 @@
 # astrbot_plugin_rocomerchant
 
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![AstrBot](https://img.shields.io/badge/AstrBot-%3E%3D4.9.2%2C%20%3C5-00A6ED?style=flat-square)](https://github.com/AstrBotDevs/AstrBot)
+[![Release](https://img.shields.io/github/v/release/roketskiy/astrbot_plugin_rocomerchant?style=flat-square&logo=github&label=Release)](https://github.com/roketskiy/astrbot_plugin_rocomerchant/releases)
+[![License](https://img.shields.io/github/license/roketskiy/astrbot_plugin_rocomerchant?style=flat-square&logo=github&label=License)](./LICENSE)
+[![Star](https://img.shields.io/github/stars/roketskiy/astrbot_plugin_rocomerchant?style=flat-square&logo=github&label=Star)](https://github.com/roketskiy/astrbot_plugin_rocomerchant/stargazers)
+[![Fork](https://img.shields.io/github/forks/roketskiy/astrbot_plugin_rocomerchant?style=flat-square&logo=github&label=Fork)](https://github.com/roketskiy/astrbot_plugin_rocomerchant/forks)
+
 洛克远行商人推送是一个 AstrBot 插件，用于查询并推送「洛克王国：世界」远行商人的当前商品信息。
 
 插件会从公开数据接口获取当前轮次、刷新时间、商人位置与商品列表，支持手动查询、会话订阅和定时推送。定时推送按会话记录发送状态，避免同一轮次重复打扰，同时在抓取失败、轮次未切换或部分会话发送失败时按配置重试。
@@ -129,4 +136,4 @@ data/latest.json
 
 ## 许可
 
-本仓库尚未声明开源许可证。分发或二次发布前，请根据项目实际授权补充 `LICENSE` 文件。
+本项目基于 [MIT License](./LICENSE) 开源。
